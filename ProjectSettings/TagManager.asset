@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - themeDropdown
+  - GameManager
+  - ThemeTitle
+  - LetterBank
+  - ThemeCanvas
+  - MainGame
+  - DisplayManager
+  - DisplayButtons
+  - ThemeDiffButtons
+  - GameButtons
+  - binary
+  - digits
+  - input
+  - submit
+  - wordDisplay
+  - NumBlock
+  - MMProps
+  - WinPanel
+  - LosePanel
+  - EndState
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
