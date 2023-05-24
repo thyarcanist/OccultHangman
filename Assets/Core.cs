@@ -11,9 +11,7 @@ public class Core : MonoBehaviour
 
     [Header("Word")]
     [SerializeField] string currentString;
-    [SerializeField] string getScene;
-    [SerializeField] private string currentWord;
-    [SerializeField] string _currentWord;
+    [SerializeField] public string currentWord;
     [SerializeField] string currentGuess = "";
 
     private List<int> _matchIndices = new List<int>();
@@ -101,7 +99,7 @@ public class Core : MonoBehaviour
         if (!isProcessingGuess)
         {
             currentWord = GetRandomWord();
-            _currentWord = currentWord; // set the _currentWord field to the current word
+            usedWords.Add(currentWord);
             remainingTimeToSolve = maxSolveTime * 60f;
             initialGuessAmount = allowedGuesses;
 
@@ -129,18 +127,18 @@ public class Core : MonoBehaviour
 
     public void ProcessGuess(string guess)
     {
-        guess.ToLower();
-        currentString = "";
+        guess = guess.ToLower();
+        currentGuess = "";
         if (Regex.IsMatch(guess, "^[a-zA-Z]$"))
         {
             bool foundMatch = false;
             for (int i = 0; i < currentWord.Length; i++)
             {
-                if (currentWord[i].ToString().ToLower() == guess.ToLower())
+                if (currentWord[i].ToString().ToLower() == guess)
                 {
                     _displayManager.UpdateLetterDisplay(i, guess);
                     foundMatch = true;
-                    currentString += guess.ToLower(); // add the guessed letter to the current string
+                    currentString += guess; // add the guessed letter to the current string
                 }
             }
 
@@ -151,6 +149,7 @@ public class Core : MonoBehaviour
                     Debug.Log("Match found, in ProcessGuess(guess), part of if(foundMatch)");
                     solvedWords.Add(currentWord);
                     numberOfWordsSolved++;
+                    solvedWords.Add(currentWord);
 
                     if (numberOfWordsSolved % wordsPerExtraLife == 0 && gameManager.isIronmanMode)
                     {
@@ -176,6 +175,7 @@ public class Core : MonoBehaviour
                         GetNewWord();
                         _displayManager.UpdateWordDisplay(currentWord, gameManager.isIronmanMode, gameManager.sessionDifficulty);
                     }
+                    return; // Return after updating the display to prevent further execution
                 }
             }
             else
@@ -215,6 +215,7 @@ public class Core : MonoBehaviour
         }
     }
 
+
     public void UpdateGuessString(string guess)
     {
         if (gameManager.isUsingBinary)
@@ -227,7 +228,7 @@ public class Core : MonoBehaviour
         }
         else
         {
-            string guessString = string.IsNullOrEmpty(guess) ? "" : guess.ToLower();
+            string guessString = guess.ToLower();
             string currentWordUpper = currentWord.ToLower();
 
             for (int i = 0; i < currentWordUpper.Length; i++)
@@ -276,10 +277,12 @@ public class Core : MonoBehaviour
     {
         if (runningSession && wordCompleted)
         {
-            gameManager.winStreak++;
+            if (!gameManager.isIronmanMode) // Only increment win streak if not in ironman mode
+            {
+                gameManager.winStreak++;
+            }
         }
     }
-
 
     #region EndGame&DisplayLogic
     private void EndSession(bool victory)
@@ -354,7 +357,7 @@ public class Core : MonoBehaviour
     }
     private void Update()
     {
-        _displayManager.UpdateWordDisplay(_currentWord, gameManager.isIronmanMode, gameManager.sessionDifficulty);
+        _displayManager.UpdateWordDisplay(currentWord, gameManager.isIronmanMode, gameManager.sessionDifficulty);
 
         if (gameManager.canUpdate)
         {
@@ -415,6 +418,13 @@ public class Core : MonoBehaviour
             {
                 isTimeRemainingCodeRunning = false; // set back to false
             }
+            if (_displayManager.timeRemainingDisplay != null)
+            {
+                string _updated = Mathf.RoundToInt(Mathf.Abs(remainingTimeToSolve)).ToString();
+                _displayManager.timeRemainingDisplay.text = _updated;
+            }
+
+            _displayManager.UpdateGuessesDisplay(allowedGuesses);
             _displayManager.UpdateGuessesDisplay(allowedGuesses);
         }
     }

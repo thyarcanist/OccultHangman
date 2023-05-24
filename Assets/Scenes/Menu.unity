@@ -482,6 +482,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 220544910661889327, guid: efb71ae4f11876941812bf95f2bf00b5, type: 3}
+      propertyPath: hangmanCore
+      value: 
+      objectReference: {fileID: 220544912433311584}
+    - target: {fileID: 220544910661889327, guid: efb71ae4f11876941812bf95f2bf00b5, type: 3}
       propertyPath: ConfigScreen
       value: 
       objectReference: {fileID: 275244108}
@@ -699,9 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentString: 
-  getScene: 
   currentWord: 
-  _currentWord: 
   currentGuess: 
   currentSessionLives: 0
   solvedWords: []

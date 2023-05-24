@@ -19,6 +19,7 @@ public class DisplayManager : MonoBehaviour
     public float _maxTimeRemaining;
 
     public string scrnMsg;
+    public string sceneName;
     public string chosenTheme;
     private string _currentWord;
 
@@ -37,7 +38,8 @@ public class DisplayManager : MonoBehaviour
     public GameObject letterBank;
 
     public TMP_Text wordDisplay = null;
-    public TMP_Text timeRemainingDisplay = null;
+    [SerializeField] public TMP_Text timeRemainingDisplay = null;
+
     bool isComplete;
 
     private void Awake()
@@ -54,12 +56,11 @@ public class DisplayManager : MonoBehaviour
         }
 
         hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
-        gameManager.GetComponent<GameManager>().enabled = false;
-
-    }
-    private void OnEnable()
-    {
-        gameManager.GetComponent<GameManager>().enabled = true;
+        gameManager = GameObject.FindWithTag("GameManager");
+        if (gameManager != null)
+        {
+            gameManager.GetComponent<GameManager>().enabled = false;
+        }
 
         // Find the three game objects in the scene
         DisplayButtons = GameObject.FindGameObjectWithTag("DisplayButtons");
@@ -70,21 +71,58 @@ public class DisplayManager : MonoBehaviour
         wordDisplay = GameObject.FindGameObjectWithTag("wordDisplay").GetComponent<TMP_Text>();
         letterBank = GameObject.FindGameObjectWithTag("LetterBank");
         EndStateScreen = GameObject.FindGameObjectWithTag("EndState");
-
-        // Show the DisplayButtons and hide the others
-        DisplayButtons.SetActive(true);
-        GameButtons.SetActive(false);
-        ThemeDiffButtons.SetActive(false);
-
-        // Sets EndStateScreen is Inactive on start
-        EndStateScreen.SetActive(false);
     }
 
-    private string _previousWord = "";
-    public string sceneName;
+    private void OnEnable()
+    {
+        gameManager.GetComponent<GameManager>().enabled = true;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Main")
+        {
+            // Show the DisplayButtons and hide the others
+            DisplayButtons.SetActive(false);
+            GameButtons.SetActive(true);
+            ThemeDiffButtons.SetActive(false);
+
+            // Sets EndStateScreen is Inactive on start
+            EndStateScreen.SetActive(false);
+
+            // Update the reference to the GameManager script
+            if (gameManager != null)
+            {
+                gameManager.GetComponent<GameManager>().enabled = false;
+            }
+        }
+        else if (scene.name == "Config")
+        {
+            // Show the ThemeDiffButtons and hide the others
+            DisplayButtons.SetActive(false);
+            GameButtons.SetActive(false);
+            ThemeDiffButtons.SetActive(true);
+        }
+        else
+        {
+            // Show the DisplayButtons and hide the others
+            DisplayButtons.SetActive(true);
+            GameButtons.SetActive(false);
+            ThemeDiffButtons.SetActive(false);
+        }
+    }
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name != "Main")
+            return;
+
         chosenTheme = gameManager.GetComponent<GameManager>().selectedTheme.ToString();
         theme.text = $"Theme: " + chosenTheme;
         currentSession = gameManager.GetComponent<GameManager>().sessionDifficulty;
@@ -102,45 +140,18 @@ public class DisplayManager : MonoBehaviour
             words = Dictionary.GetWordsByTheme(chosenTheme);
         }
 
-        // Check the current scene and show/hide the appropriate game object
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "Menu")
+        if (_currentWord != hangmanCore.currentWord)
         {
-            gameManager.GetComponent<GameManager>().isInMainMenu = true;
-            DisplayButtons.SetActive(true);
-            GameButtons.SetActive(false);
-            ThemeDiffButtons.SetActive(false);
+            _currentWord = hangmanCore.currentWord;
+            UpdateWordDisplay(_currentWord, isIronOn, currentSession);
         }
-        else if (sceneName == "Config")
-        {
-            gameManager.GetComponent<GameManager>().isInConfig = true;
-            DisplayButtons.SetActive(false);
-            GameButtons.SetActive(false);
-            ThemeDiffButtons.SetActive(true);
-        }
-        else if (sceneName == "Main")
-        {
-            gameManager.GetComponent<GameManager>().isInRunningGame = true;
-            DisplayButtons.SetActive(false);
-            GameButtons.SetActive(true);
-            ThemeDiffButtons.SetActive(false);
 
-            if (_currentWord != _previousWord)
-            {
-                UpdateWordDisplay(_currentWord, isIronOn, currentSession);
-                _previousWord = _currentWord;
-            }
-        }
-        UpdateWordDisplay(_currentWord, isIronOn, currentSession);
-
-        string _updated = Mathf.RoundToInt(Mathf.Abs(gameManager.GetComponent<Core>().remainingTimeToSolve)).ToString();
+        string _updated = Mathf.RoundToInt(Mathf.Abs(hangmanCore.remainingTimeToSolve)).ToString();
         timeRemainingDisplay.text = _updated;
     }
 
     internal void UpdateWordDisplay(string currentWord, bool isIronOn, SessionDifficulty sessionDifficulty)
     {
-        Debug.Log($"Updating word display with current word: {currentWord}");
-
         _currentWord = currentWord;
 
         string display = "";
@@ -177,8 +188,6 @@ public class DisplayManager : MonoBehaviour
             WordIsComplete();
         }
 
-        Debug.Log($"Updated word display: {display}");
-
         if (wordDisplay != null)
         {
             wordDisplay.text = display;
@@ -188,17 +197,16 @@ public class DisplayManager : MonoBehaviour
             Debug.Log("wordDisplay is null");
         }
     }
+
     public bool DetermineIronMode(bool isSingle)
     {
-        if (isSingle)
-        {
-            return isIronOn = true;
-        }
-        else { return isIronOn = false; }
+        return isSingle;
     }
-    private void UpdateLetterBankDisplay()
+
+    internal void UpdateLetterBankDisplay()
     {
-        if (letterBank == null) return;
+        if (letterBank == null)
+            return;
 
         TextMeshProUGUI letterBankText = letterBank.GetComponent<TextMeshProUGUI>();
         letterBankText.text = "Letter Bank: ";
@@ -207,71 +215,70 @@ public class DisplayManager : MonoBehaviour
             letterBankText.text += letter + ", ";
         }
     }
-    internal void UpdateLetterDisplay(int i, string guess)
+
+ internal void UpdateLetterDisplay(int i, string guess)
+{
+    // Convert the guessed letter to lowercase for case-insensitive comparison
+    string lowerCaseGuess = guess.ToLower();
+
+    // Check if the letter has already been guessed
+    if (guessedLetters.Contains(lowerCaseGuess))
     {
-        // Check if the letter has already been guessed
-        if (guessedLetters.Contains(guess))
-        {
-            Debug.Log($"Letter {guess} has already been guessed"); // For testing
-            return;
-        }
-
-        // Update the display with the guessed letter at position i
-        guessedLetters.Add(guess);
-        Debug.Log($"Updated guessed letters: {string.Join(", ", guessedLetters)}"); // For testing
-        UpdateLetterBankDisplay();
-
-        if (_currentWord.Contains(guess))
-        {
-            _matchIndices.Clear(); // Clear the previous indices
-            for (int j = 0; j < _currentWord.Length; j++)
-            {
-                if (_currentWord[j].ToString().Equals(guess))
-                {
-                    _matchIndices.Add(j);
-                }
-            }
-
-            hangmanCore.MatchIndices = _matchIndices; // Set the matched indices in GameManager
-            Debug.Log($"Match found: {guess} at indices {string.Join(", ", _matchIndices)}"); // For testing
-
-            // Update the current word with the matched letter at the matched indices
-            foreach (int index in _matchIndices)
-            {
-                _currentWord = _currentWord.Substring(0, index) + guess + _currentWord.Substring(index + 1);
-                Debug.Log($"Updated current word: {_currentWord}"); // For testing
-            }
-
-            UpdateWordDisplay(_currentWord, isIronOn, currentSession); // Add this line to update the word display
-        }
+        Debug.Log($"Letter {lowerCaseGuess} has already been guessed");
+        return;
     }
 
+    // Update the display with the guessed letter at position i
+    guessedLetters.Add(lowerCaseGuess);
+    Debug.Log($"Updated guessed letters: {string.Join(", ", guessedLetters)}");
+    UpdateLetterBankDisplay();
+
+    if (_currentWord.ToLower().Contains(lowerCaseGuess))
+    {
+        _matchIndices.Clear();
+        for (int j = 0; j < _currentWord.Length; j++)
+        {
+            if (_currentWord[j].ToString().ToLower().Equals(lowerCaseGuess))
+            {
+                _matchIndices.Add(j);
+            }
+        }
+
+        hangmanCore.MatchIndices = _matchIndices;
+        Debug.Log($"Match found: {lowerCaseGuess} at indices {string.Join(", ", _matchIndices)}");
+
+        foreach (int index in _matchIndices)
+        {
+            _currentWord = _currentWord.Substring(0, index) + _currentWord[index].ToString().ToLower() + _currentWord.Substring(index + 1);
+            Debug.Log($"Updated current word: {_currentWord}");
+        }
+
+        UpdateWordDisplay(_currentWord, isIronOn, currentSession);
+    }
+}
 
 
 
     internal bool WordIsComplete()
     {
         bool isComplete = guessedLetters.Count == _currentWord.Replace(" ", "").Length;
-        if (isComplete && hangmanCore.GetComponent<Core>().runningSession)
+        if (isComplete && hangmanCore.runningSession)
         {
-            hangmanCore.GetComponent<Core>().wordCompleted = true;
+            hangmanCore.wordCompleted = true;
             DisplaySuccessWord();
             EndStateScreen.SetActive(true);
         }
         return isComplete;
     }
 
-
-
     internal void UpdateGuessesDisplay(int allowedGuesses)
     {
-        // Update the display with the number of guesses left
-        Debug.Log($"Guesses left: {allowedGuesses}"); // For testing
+        Debug.Log($"Guesses left: {allowedGuesses}");
     }
+
     internal void RevealWord()
     {
-        // Reveal the word after the game is over
-        Debug.Log("Revealing word: " + _currentWord); // For testing
+        Debug.Log("Revealing word: " + _currentWord);
     }
 
     internal void DisplaySuccessWord()
@@ -284,38 +291,33 @@ public class DisplayManager : MonoBehaviour
 
         WinScreen.SetActive(true);
         LoseScreen.SetActive(false);
-   
 
-        // Display word success
         Debug.Log("Successfully solved word.");
     }
 
-
     internal void DisplayVictory()
     {
-        // Check if the end state screen is already displayed
-        if (_isEndStateDisplayed) return;
+        if (_isEndStateDisplayed)
+            return;
 
-        if (hangmanCore.GetComponent<Core>().wordCompleted == true)
+        if (hangmanCore.wordCompleted == true)
         {
             WinScreen.SetActive(true);
             LoseScreen.SetActive(false);
         }
 
-        // Display a victory message
-        Debug.Log("Displaying victory message"); // For testing
-
+        Debug.Log("Displaying victory message");
         _isEndStateDisplayed = true;
     }
 
     internal void DisplayDefeat()
     {
-        // Check if the end state screen is already displayed
-        if (_isEndStateDisplayed) return;
+        if (_isEndStateDisplayed)
+            return;
 
         gameManager.GetComponent<GameManager>().winStreak = 0;
-        hangmanCore.GetComponent<Core>().failWordCompletion = true;
-        // Add method in GameManager
+        hangmanCore.failWordCompletion = true;
+
         WinScreen.SetActive(false);
         LoseScreen.SetActive(true);
 
@@ -324,7 +326,7 @@ public class DisplayManager : MonoBehaviour
 
     internal void UpdateTimeDisplay(float remainingTimeToSolve)
     {
-        if (timeRemainingDisplay != null) // Check if timeRemainingDisplay is not null
+        if (timeRemainingDisplay != null)
         {
             int minutes = Mathf.FloorToInt(remainingTimeToSolve / 60f);
             int seconds = Mathf.FloorToInt(remainingTimeToSolve % 60f);
@@ -332,8 +334,7 @@ public class DisplayManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("timeRemainingDisplay is null"); // For testing
+            Debug.Log("timeRemainingDisplay is null");
         }
     }
-
 }

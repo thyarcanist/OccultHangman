@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public bool isUsingNumpad;
     public bool isUsingBinary;
 
-    
+
 
     [SerializeField] private DisplayManager _displayManager;
     [SerializeField] public DisplayManager DisplayManager => _displayManager;
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _displayManager.GetComponent<DisplayManager>().EndStateScreen.SetActive(false);   
+        _displayManager.GetComponent<DisplayManager>().EndStateScreen.SetActive(false);
     }
 
     private void OnEnable()
@@ -97,23 +97,37 @@ public class GameManager : MonoBehaviour
         MainMenuProperties = GameObject.FindGameObjectWithTag("MMProps");
 
         StartCoroutine(WaitAllowStartInputs(true));
+
+        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnDisable()
     {
-        if (_displayManager.sceneName == "Menu")
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Menu")
         {
-            SwitchCurrentScreens();
+            isInMainMenu = true;
+            isInConfig = false;
+            isInRunningGame = false;
         }
-        else if (_displayManager.sceneName == "Config")
+        else if (scene.name == "Config")
         {
-            SwitchCurrentScreens();
+            isInMainMenu = false;
+            isInConfig = true;
+            isInRunningGame = false;
         }
-        else if (_displayManager.sceneName == "Main")
+        else if (scene.name == "Main")
         {
-            SwitchCurrentScreens();
+            isInMainMenu = false;
+            isInConfig = false;
+            isInRunningGame = true;
         }
-        else { }
+
+        SwitchCurrentScreens(); // Call the screen switching logic
     }
 
 
