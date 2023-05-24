@@ -12,6 +12,8 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        RefInputs();
+
         if (Instance == null)
         {
             Instance = this;

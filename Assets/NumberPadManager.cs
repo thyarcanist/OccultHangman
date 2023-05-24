@@ -27,9 +27,11 @@ public class NumberPadManager : MonoBehaviour
     public string currentInput = "";
     public GameManager gameManager;
     public GameObject[] numberBlocks;
+    private Core hangmanCore;
 
     public void OnEnable()
     {
+        hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
         gameManager = FindObjectOfType<GameManager>();
         if (gameManager == null)
         {
@@ -85,7 +87,7 @@ public class NumberPadManager : MonoBehaviour
             // Submit the guess
             if (!string.IsNullOrEmpty(currentInput))
             {
-                gameManager.ProcessGuess(FetchLetter());
+                hangmanCore.ProcessGuess(FetchLetter());
             }
             // Clear the current input
             currentInput = "";
@@ -119,7 +121,7 @@ public class NumberPadManager : MonoBehaviour
             // Submit the guess
             if (!string.IsNullOrEmpty(currentInput))
             {
-                gameManager.ProcessGuess(FetchLetter().ToLower());
+                hangmanCore.ProcessGuess(FetchLetter().ToLower());
             }
             // Clear the current input
             currentInput = "";

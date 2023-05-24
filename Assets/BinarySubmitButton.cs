@@ -3,11 +3,14 @@ using UnityEngine.UI;
 
 public class BinarySubmitButton : MonoBehaviour
 {
-    public GameManager gameManager;
-    public BinaryDictionary binaryDictionary;
+    private GameManager gameManager;
+    private Core hangmanCore;
+    private BinaryDictionary binaryDictionary;
 
     private void Awake()
     {
+        hangmanCore = FindObjectOfType<Core>().GetComponent<Core>();
+
         // Set the onClick listener for the button
         GetComponent<Button>().onClick.AddListener(Submit);
     }
@@ -15,7 +18,7 @@ public class BinarySubmitButton : MonoBehaviour
     private void Submit()
     {
         string guess = binaryDictionary.currentBinaryInput;
-        gameManager.ProcessGuess(guess);
+        hangmanCore.ProcessGuess(guess);
         binaryDictionary.currentBinaryInput = "";
     }
 }

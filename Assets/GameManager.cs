@@ -13,7 +13,8 @@ public enum SessionDifficulty { Easy, Normal, Hard }
 public enum DictTheme { All, Demons, Gnosticism, Fiction, Angels, Cosmic, Matter, Geometry }
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] HangmanDictionary _dictionary;
+    [SerializeField] public HangmanDictionary _dictionary;
+    [SerializeField] Core hangmanCore;
 
     public DictTheme selectedTheme;
     public TMP_Dropdown themeDropdown;
@@ -23,15 +24,6 @@ public class GameManager : MonoBehaviour
     public NumberPadManager numpadController;
     public InputManager inputManager;
 
-    private List<int> _matchIndices = new List<int>();
-    public List<int> MatchIndices
-    {
-        get => _matchIndices;
-        set => _matchIndices = value;
-    }
-    public int IRONMAN_MODE_EASY_GUESSES { get; private set; } = 20;
-    public int IRONMAN_MODE_MEDIUM_GUESSES { get; private set; } = 16;
-    public int IRONMAN_MODE_HARD_GUESSES { get; private set; } = 6;
 
     [Header("Input Methods")]
     // Input Methods
@@ -40,48 +32,11 @@ public class GameManager : MonoBehaviour
     public bool isUsingNumpad;
     public bool isUsingBinary;
 
-    [Header("Word")]
-    [SerializeField] string currentString;
-    [SerializeField] string getScene;
-    private string currentWord;
-    [SerializeField] string _currentWord;
-    [SerializeField] string currentGuess = "";
+    
 
+    [SerializeField] private DisplayManager _displayManager;
+    [SerializeField] public DisplayManager DisplayManager => _displayManager;
 
-    [Header("Session Difficulty & Lives")]
-    public SessionDifficulty difficulty = SessionDifficulty.Normal;
-    public SessionDifficulty sessionDifficulty;
-
-    public int maxSessionLives = 3;
-    public int minSessionLives = 0;
-    public int currentSessionLives;
-
-
-    [Header("Standard Game Logic Variables")]
-    public bool runningSession;
-    public bool isIronmanMode = false;
-    public int wordsPerExtraLife = 3;
-    public bool isProcessingGuess = false;
-    public bool failWordCompletion = false;
-
-    public int allowedGuesses = 6;
-    public int initialGuessAmount;
-
-    public bool wordCompleted = false;
-    public int winStreak = 0;
-
-    [SerializeField] private float maxSolveTime = 3f; // in Minutes
-    public float remainingTimeToSolve;
-
-    [SerializeField] private int numberOfWordsSolved;
-
-    private DisplayManager _displayManager;
-
-    [Header("Logic: Lists")]
-    [SerializeField] public List<string> solvedWords = new List<string>();
-    [SerializeField] private List<string> usedWords = new List<string>();
-
-    [SerializeField] private bool isTimeRemainingCodeRunning = false;
 
     [Header("Logic: Screens")]
     [SerializeField] GameObject ConfigScreen;
@@ -90,6 +45,19 @@ public class GameManager : MonoBehaviour
     public bool isInConfig;
     [SerializeField] public bool isInRunningGame;
     [SerializeField] public bool isInMainMenu;
+
+
+    [Header("Session Difficulty & Lives")]
+    public bool isIronmanMode = false;
+    public SessionDifficulty difficulty = SessionDifficulty.Normal;
+    public SessionDifficulty sessionDifficulty;
+
+    public int maxSessionLives = 3;
+    public int minSessionLives = 0;
+
+    [Header("Lexiology Statistics")]
+    public int winStreak = 0;
+
 
 
 
@@ -106,7 +74,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-
+        hangmanCore = FindObjectOfType<Core>();
         _displayManager = FindObjectOfType<DisplayManager>();
         _displayManager = GameObject.FindWithTag("DisplayManager").GetComponent<DisplayManager>();
         _displayManager.Dictionary = _dictionary;
@@ -129,71 +97,6 @@ public class GameManager : MonoBehaviour
         MainMenuProperties = GameObject.FindGameObjectWithTag("MMProps");
 
         StartCoroutine(WaitAllowStartInputs(true));
-    }
-
-    private void Update()
-    {
-        _displayManager.UpdateWordDisplay(_currentWord, isIronmanMode, sessionDifficulty);
-
-        if (canUpdate)
-        {
-            if (runningSession)
-            {
-                isTimeRemainingCodeRunning = true; // set to true when the code block runs
-
-                if (isUsingInput)
-                {
-                    inputManager.SetInputActive();
-                    if (Input.GetKeyDown(KeyCode.Return))
-                    {
-                        SubmitGuess();
-                    }
-                }
-                else if (isUsingNumpad)
-                {
-                    inputManager.SetNumpadActive();
-                    string guess = numpadController.currentInput;
-                }
-                else if (isUsingBinary)
-                {
-                    inputManager.SetBinaryActive();
-                    string guess = binaryDictionary.currentBinaryInput;
-                    char matchKey = (char)binaryDictionary.GetMatchedKey(guess);
-                    if (matchKey != default)
-                    {
-                         ProcessGuess(matchKey.ToString());
-                         binaryDictionary.currentBinaryInput = "";
-                    }
-                }
-
-                if (allowedGuesses == 0)
-                {
-                    if (isIronmanMode)
-                    {
-                        wordsPerExtraLife--;
-                        if (wordsPerExtraLife == 0)
-                        {
-                            wordsPerExtraLife = 3;
-                            maxSessionLives++;
-                        }
-                    }
-                    else
-                    {
-                        currentSessionLives--;
-                    }
-
-                    if (currentSessionLives < minSessionLives)
-                    {
-                        EndSession(false);
-                    }
-                }
-            }
-            if (isTimeRemainingCodeRunning && remainingTimeToSolve <= 0)
-            {
-                isTimeRemainingCodeRunning = false; // set back to false
-            }
-            _displayManager.UpdateGuessesDisplay(allowedGuesses);
-        }
     }
 
     private void OnLevelWasLoaded(int level)
@@ -268,278 +171,6 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region WordSelection
-    private string GetRandomWord()
-    {
-        string[] possibleWords;
-
-        if (selectedTheme == DictTheme.All)
-        {
-            possibleWords = _dictionary.GetAllWords();
-        }
-        else
-        {
-            possibleWords = _dictionary.GetWordsByTheme(selectedTheme.ToString());
-        }
-
-        possibleWords = possibleWords.Except(solvedWords).ToArray();
-        possibleWords = possibleWords.Except(usedWords).ToArray();
-
-        string word;
-
-        if (possibleWords.Length > 0)
-        {
-            word = possibleWords[Random.Range(0, possibleWords.Length)];
-        }
-        else
-        {
-            usedWords.Clear();
-            solvedWords.Clear();
-            word = GetRandomWord();
-        }
-
-        return word;
-    }
-    public void GetNewWord()
-    {
-        if (wordCompleted || failWordCompletion)
-        {
-            _displayManager.WinScreen.SetActive(false);
-            _displayManager.LoseScreen.SetActive(false);
-            wordCompleted = false;
-            failWordCompletion = false;
-        }
-
-        if (!isProcessingGuess)
-        {
-            currentWord = GetRandomWord();
-            _currentWord = currentWord; // set the _currentWord field to the current word
-            remainingTimeToSolve = maxSolveTime * 60f;
-            initialGuessAmount = allowedGuesses;
-
-            if (isIronmanMode)
-            {
-                if (sessionDifficulty == SessionDifficulty.Easy)
-                {
-                    initialGuessAmount = IRONMAN_MODE_EASY_GUESSES;
-                }
-                else if (sessionDifficulty == SessionDifficulty.Normal)
-                {
-                    initialGuessAmount = IRONMAN_MODE_MEDIUM_GUESSES;
-                }
-                else if (sessionDifficulty == SessionDifficulty.Hard)
-                {
-                    initialGuessAmount = IRONMAN_MODE_HARD_GUESSES;
-                }
-            }
-
-            _displayManager.UpdateWordDisplay(currentWord, isIronmanMode, sessionDifficulty);
-            StartCoroutine(CountdownTimerCoroutine());
-            isProcessingGuess = true;
-        }
-    }
-
-    public void ProcessGuess(string guess)
-    {
-        guess.ToLower();
-        currentString = "";
-        if (Regex.IsMatch(guess, "^[a-zA-Z]$"))
-        {
-            bool foundMatch = false;
-            for (int i = 0; i < currentWord.Length; i++)
-            {
-                if (currentWord[i].ToString().ToLower() == guess.ToLower())
-                {
-                    _displayManager.UpdateLetterDisplay(i, guess);
-                    foundMatch = true;
-                    currentString += guess.ToLower(); // add the guessed letter to the current string
-                }
-            }
-
-            if (foundMatch)
-            {
-                if (_displayManager.WordIsComplete())
-                {
-                    Debug.Log("Match found, in ProcessGuess(guess), part of if(foundMatch)");
-                    solvedWords.Add(currentWord);
-                    numberOfWordsSolved++;
-
-                    if (numberOfWordsSolved % wordsPerExtraLife == 0 && isIronmanMode)
-                    {
-                        maxSessionLives++;
-                    }
-
-                    if (maxSessionLives > 5)
-                    {
-                        maxSessionLives = 5;
-                    }
-
-                    if (numberOfWordsSolved == 5 && isIronmanMode)
-                    {
-                        allowedGuesses++;
-                    }
-
-                    if (solvedWords.Count == _dictionary.GetAllWords().Length)
-                    {
-                        EndSession(true);
-                    }
-                    else
-                    {
-                        GetNewWord();
-                        _displayManager.UpdateWordDisplay(currentWord, isIronmanMode, sessionDifficulty);
-                    }
-                }
-            }
-            else
-            {
-                allowedGuesses--;
-                _displayManager.UpdateGuessesDisplay(allowedGuesses);
-
-                if (allowedGuesses == 0)
-                {
-                    currentSessionLives--;
-                    if (isIronmanMode)
-                    {
-                        wordsPerExtraLife--;
-                        if (wordsPerExtraLife == 0)
-                        {
-                            wordsPerExtraLife = 3;
-                            maxSessionLives++;
-                        }
-                    }
-
-                    if (currentSessionLives < minSessionLives)
-                    {
-                        EndSession(false);
-                    }
-                    else
-                    {
-                        GetNewWord();
-                    }
-                }
-            }
-            UpdateGuessString(guess);
-        }
-        else
-        {
-            Debug.LogWarning("Invalid guess: " + guess);
-            isProcessingGuess = false;
-        }
-    }
-
-    public void UpdateGuessString(string guess)
-    {
-        if (isUsingBinary)
-        {
-            if (binaryDictionary.currentBinaryInput.Length < BinaryDictionary.maxBinaryDigitCount)
-            {
-                binaryDictionary.currentBinaryInput += guess.ToLower();
-                _displayManager.UpdateGuessesDisplay(allowedGuesses);
-            }
-        }
-        else
-        {
-            string guessString = string.IsNullOrEmpty(guess) ? "" : guess.ToLower();
-            string currentWordUpper = currentWord.ToLower();
-
-            for (int i = 0; i < currentWordUpper.Length; i++)
-            {
-                if (currentWordUpper[i] == guessString[0])
-                {
-                    _displayManager.UpdateLetterDisplay(i, guessString);
-                }
-            }
-
-            if (isUsingNumpad)
-            {
-                numpadController.currentInput += guessString;
-            }
-            else if (isUsingInput)
-            {
-                if (userInput.text.Length < 1)
-                {
-                    userInput.text += guessString;
-                }
-            }
-        }
-    }
-    public void SubmitGuess()
-    {
-        string guess = userInput.text;
-        if (!string.IsNullOrEmpty(guess))
-        {
-            ProcessGuess(guess);
-            ClearInput();
-        }
-    }
-
-    public void EndEditGuess(string guess)
-    {
-        if (!string.IsNullOrEmpty(guess))
-        {
-            ProcessGuess(guess);
-        }
-    }
-
-    #endregion
-
-    public void SolvedWordSuccessfully()
-    { 
-        if (runningSession && wordCompleted)
-        {
-            winStreak++;
-        }
-    }
-
-    private void EndSession(bool victory)
-    {
-        runningSession = false;
-        Debug.Log("End Session called");
-
-        if (CountdownTimerCoroutine() != null)
-        {
-            StopCoroutine(CountdownTimerCoroutine());
-        }
-
-        if (victory)
-        {
-            _displayManager.DisplayVictory();
-        }
-        else
-        {
-            _displayManager.DisplayDefeat();
-        }
-
-        //currentWord = "";
-        //solvedWords.Clear();
-        //usedWords.Clear();
-        //numberOfWordsSolved = 0;
-        //allowedGuesses = 6;
-        //currentSessionLives = maxSessionLives;
-        //maxSessionLives = 3;
-    }
-    private IEnumerator CountdownTimerCoroutine()
-    {
-        while (remainingTimeToSolve > 0f)
-        {
-            remainingTimeToSolve -= Time.deltaTime;
-
-            yield return null;
-        }
-
-        EndSession(false);
-    }
-    private IEnumerator UpdateDisplayCoroutine()
-    {
-        while (remainingTimeToSolve > 0)
-        {
-            _displayManager.UpdateGuessesDisplay(allowedGuesses);
-            _displayManager.UpdateTimeDisplay(remainingTimeToSolve);
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-
     #region Buttons
 
     public void ToMainMenu()
@@ -573,8 +204,8 @@ public class GameManager : MonoBehaviour
         isInRunningGame = true;
 
         SceneManager.LoadScene("Main");
-        runningSession = true;
-        GetNewWord();
+        hangmanCore.runningSession = true;
+        hangmanCore.GetNewWord();
     }
     public void ReturnToMenu()
     {
@@ -596,14 +227,14 @@ public class GameManager : MonoBehaviour
 
     public void ExitGame()
     {
-        runningSession = false;
+        hangmanCore.runningSession = false;
         Application.Quit();
     }
 
     public void ClearBinaryInput()
     {
         binaryDictionary.currentBinaryInput = "";
-        _displayManager.UpdateGuessesDisplay(allowedGuesses);
+        _displayManager.UpdateGuessesDisplay(hangmanCore.allowedGuesses);
     }
     public void ClearInput()
     {
@@ -627,7 +258,7 @@ public class GameManager : MonoBehaviour
             string guess = userInput.text;
             if (!string.IsNullOrEmpty(guess))
             {
-                ProcessGuess(guess.ToLower());
+                hangmanCore.ProcessGuess(guess.ToLower());
                 ClearInput();
             }
         }
@@ -636,7 +267,7 @@ public class GameManager : MonoBehaviour
             string guess = numpadController.currentInput;
             if (!string.IsNullOrEmpty(guess))
             {
-                ProcessGuess(guess.ToLower());
+                hangmanCore.ProcessGuess(guess.ToLower());
                 ClearInput();
             }
         }
@@ -645,7 +276,7 @@ public class GameManager : MonoBehaviour
             string guess = binaryDictionary.currentBinaryInput;
             if (!string.IsNullOrEmpty(guess))
             {
-                ProcessGuess(guess.ToLower());
+                hangmanCore.ProcessGuess(guess.ToLower());
                 ClearInput();
             }
         }
@@ -655,7 +286,7 @@ public class GameManager : MonoBehaviour
 
     #region InputsDomain
     private bool newScene;
-    private bool canUpdate = false;
+    public bool canUpdate = false;
     private IEnumerator WaitAllowStartInputs(bool isInNewScene)
     {
         yield return new WaitForSeconds(5);

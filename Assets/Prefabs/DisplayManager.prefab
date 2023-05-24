@@ -7258,8 +7258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b840da86636f90d4dbc43cc0d85951ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  binaryDictionary: {fileID: 0}
 --- !u!1 &6820031495741465215
 GameObject:
   m_ObjectHideFlags: 0
@@ -7774,8 +7772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b840da86636f90d4dbc43cc0d85951ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  binaryDictionary: {fileID: 0}
 --- !u!1 &6820031496152934616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7911,6 +7907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+  hangmanCore: {fileID: 0}
   showDashes: 1
   isIronOn: 0
   _modifiedLives: 0

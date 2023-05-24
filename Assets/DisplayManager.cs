@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DisplayManager : MonoBehaviour
 {
-    public GameObject gameManager;
+    [SerializeField] private GameObject gameManager;
+    [SerializeField] private Core hangmanCore;
     public static DisplayManager Instance { get; private set; }
     public HangmanDictionary Dictionary { get; set; }
     private SessionDifficulty currentSession;
@@ -52,6 +53,7 @@ public class DisplayManager : MonoBehaviour
             return;
         }
 
+        hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
         gameManager.GetComponent<GameManager>().enabled = false;
 
     }
@@ -131,7 +133,7 @@ public class DisplayManager : MonoBehaviour
         }
         UpdateWordDisplay(_currentWord, isIronOn, currentSession);
 
-        string _updated = Mathf.RoundToInt(Mathf.Abs(gameManager.GetComponent<GameManager>().remainingTimeToSolve)).ToString();
+        string _updated = Mathf.RoundToInt(Mathf.Abs(gameManager.GetComponent<Core>().remainingTimeToSolve)).ToString();
         timeRemainingDisplay.text = _updated;
     }
 
@@ -230,7 +232,7 @@ public class DisplayManager : MonoBehaviour
                 }
             }
 
-            GameManager.Instance.MatchIndices = _matchIndices; // Set the matched indices in GameManager
+            hangmanCore.MatchIndices = _matchIndices; // Set the matched indices in GameManager
             Debug.Log($"Match found: {guess} at indices {string.Join(", ", _matchIndices)}"); // For testing
 
             // Update the current word with the matched letter at the matched indices
@@ -250,9 +252,9 @@ public class DisplayManager : MonoBehaviour
     internal bool WordIsComplete()
     {
         bool isComplete = guessedLetters.Count == _currentWord.Replace(" ", "").Length;
-        if (isComplete && gameManager.GetComponent<GameManager>().runningSession)
+        if (isComplete && hangmanCore.GetComponent<Core>().runningSession)
         {
-            gameManager.GetComponent<GameManager>().wordCompleted = true;
+            hangmanCore.GetComponent<Core>().wordCompleted = true;
             DisplaySuccessWord();
             EndStateScreen.SetActive(true);
         }
@@ -278,7 +280,7 @@ public class DisplayManager : MonoBehaviour
         GameManager gameManager = FindObjectOfType<GameManager>();
         _isEndStateDisplayed = true;
 
-        gameManager.SolvedWordSuccessfully();
+        hangmanCore.SolvedWordSuccessfully();
 
         WinScreen.SetActive(true);
         LoseScreen.SetActive(false);
@@ -294,7 +296,7 @@ public class DisplayManager : MonoBehaviour
         // Check if the end state screen is already displayed
         if (_isEndStateDisplayed) return;
 
-        if (gameManager.GetComponent<GameManager>().wordCompleted == true)
+        if (hangmanCore.GetComponent<Core>().wordCompleted == true)
         {
             WinScreen.SetActive(true);
             LoseScreen.SetActive(false);
@@ -312,7 +314,7 @@ public class DisplayManager : MonoBehaviour
         if (_isEndStateDisplayed) return;
 
         gameManager.GetComponent<GameManager>().winStreak = 0;
-        gameManager.GetComponent<GameManager>().failWordCompletion = true;
+        hangmanCore.GetComponent<Core>().failWordCompletion = true;
         // Add method in GameManager
         WinScreen.SetActive(false);
         LoseScreen.SetActive(true);

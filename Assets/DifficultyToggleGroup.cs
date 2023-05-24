@@ -7,6 +7,7 @@ public class DifficultyToggleGroup : MonoBehaviour
     public Toggle normalToggle;
     public Toggle hardToggle;
     public GameManager gameManager;
+    private Core hangmanCore;
     public SessionDifficulty difficulty = SessionDifficulty.Normal;
 
     private void Awake()
@@ -16,6 +17,8 @@ public class DifficultyToggleGroup : MonoBehaviour
         easyToggle.onValueChanged.AddListener(OnEasyToggle);
         normalToggle.onValueChanged.AddListener(OnNormalToggle);
         hardToggle.onValueChanged.AddListener(OnHardToggle);
+
+        hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
     }
 
     public void OnEasyToggle(bool isOn)

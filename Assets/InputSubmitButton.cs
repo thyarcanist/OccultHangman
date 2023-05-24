@@ -5,6 +5,13 @@ using TMPro;
 public class InputSubmitButton : MonoBehaviour
 {
     public TMP_InputField inputField;
+    private Core hangmanCore;
+
+
+    private void Awake()
+    {
+        hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
+    }
 
     private void Start()
     {
@@ -17,7 +24,7 @@ public class InputSubmitButton : MonoBehaviour
         string guess = inputField.text;
         if (!string.IsNullOrEmpty(guess))
         {
-            GameManager.Instance.ProcessGuess(guess);
+            hangmanCore.ProcessGuess(guess);
             inputField.text = "";
         }
     }

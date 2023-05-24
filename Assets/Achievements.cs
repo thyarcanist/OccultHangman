@@ -15,6 +15,7 @@ public class Achievements : MonoBehaviour
     bool completedTheMainStory = false;
     bool occultInitiate = false; // completed upon making a profile
     bool accessedTheUnknown = false; // compelted tethered game connection
+    // Fully completing one theme will unlock 'story' it's intended as a one-shot. No saves or anything.
 
     // Start is called before the first frame update
     void Start()
