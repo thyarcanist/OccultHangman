@@ -47,12 +47,6 @@ public class InputManager : MonoBehaviour
         SetBinaryActive();
     }
 
-
-    private void Start()
-    {
-        StartCoroutine(WaitForGameObjects());
-    }
-
     public void SetNumpadActive()
     {
         binary.SetActive(false);

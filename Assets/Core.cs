@@ -338,10 +338,7 @@ public class Core : MonoBehaviour
     #region RUNTIME
     private void Awake()
     {
-
-        GameManager gameManager = FindObjectOfType<GameManager>();
-        gameManager = gameManager.GetComponent<GameManager>();
-
+        gameManager = FindObjectOfType<GameManager>();
         _displayManager = FindObjectOfType<DisplayManager>();
         _displayManager = GameObject.FindWithTag("DisplayManager").GetComponent<DisplayManager>();
 
@@ -353,8 +350,8 @@ public class Core : MonoBehaviour
         {
             Debug.LogWarning("GameManager or DisplayManager not found.");
         }
-
     }
+
     private void Update()
     {
         _displayManager.UpdateWordDisplay(currentWord, gameManager.isIronmanMode, gameManager.sessionDifficulty);

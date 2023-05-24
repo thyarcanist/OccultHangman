@@ -44,6 +44,12 @@ public class DisplayManager : MonoBehaviour
 
     private void Awake()
     {
+        // Set the Dictionary reference first
+        Dictionary = FindObjectOfType<HangmanDictionary>();
+
+        // Find the other game objects in the scene
+        gameManager = GameObject.FindWithTag("GameManager");
+
         if (Instance == null)
         {
             Instance = this;
@@ -95,12 +101,6 @@ public class DisplayManager : MonoBehaviour
 
             // Sets EndStateScreen is Inactive on start
             EndStateScreen.SetActive(false);
-
-            // Update the reference to the GameManager script
-            if (gameManager != null)
-            {
-                gameManager.GetComponent<GameManager>().enabled = false;
-            }
         }
         else if (scene.name == "Config")
         {

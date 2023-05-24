@@ -11,10 +11,11 @@ using Random = UnityEngine.Random;
 [System.Serializable]
 public enum SessionDifficulty { Easy, Normal, Hard }
 public enum DictTheme { All, Demons, Gnosticism, Fiction, Angels, Cosmic, Matter, Geometry }
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] public HangmanDictionary _dictionary;
-    [SerializeField] Core hangmanCore;
+    [SerializeField] private Core hangmanCore;
 
     public DictTheme selectedTheme;
     public TMP_Dropdown themeDropdown;
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     public NumberPadManager numpadController;
     public InputManager inputManager;
 
+    [SerializeField] private DisplayManager _displayManager;
+    public DisplayManager DisplayManager => _displayManager;
 
     [Header("Input Methods")]
     // Input Methods
@@ -32,20 +35,13 @@ public class GameManager : MonoBehaviour
     public bool isUsingNumpad;
     public bool isUsingBinary;
 
-
-
-    [SerializeField] private DisplayManager _displayManager;
-    [SerializeField] public DisplayManager DisplayManager => _displayManager;
-
-
     [Header("Logic: Screens")]
-    [SerializeField] GameObject ConfigScreen;
-    [SerializeField] GameObject GameScreen;
-    [SerializeField] GameObject MainMenuProperties;
+    [SerializeField] private GameObject configScreen;
+    [SerializeField] private GameObject gameScreen;
+    [SerializeField] private GameObject mainMenuProperties;
     public bool isInConfig;
-    [SerializeField] public bool isInRunningGame;
-    [SerializeField] public bool isInMainMenu;
-
+    public bool isInRunningGame;
+    public bool isInMainMenu;
 
     [Header("Session Difficulty & Lives")]
     public bool isIronmanMode = false;
@@ -57,9 +53,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Lexiology Statistics")]
     public int winStreak = 0;
-
-
-
 
     private void Awake()
     {
@@ -76,34 +69,31 @@ public class GameManager : MonoBehaviour
 
         hangmanCore = FindObjectOfType<Core>();
         _displayManager = FindObjectOfType<DisplayManager>();
-        _displayManager = GameObject.FindWithTag("DisplayManager").GetComponent<DisplayManager>();
         _displayManager.Dictionary = _dictionary;
-
     }
 
     private void Start()
     {
-        _displayManager.GetComponent<DisplayManager>().EndStateScreen.SetActive(false);
+        _displayManager.EndStateScreen.SetActive(false);
     }
 
     private void OnEnable()
     {
         themeDropdown = GameObject.FindGameObjectWithTag("themeDropdown").GetComponent<TMP_Dropdown>();
         PopulateDropDownWithEnum(themeDropdown, selectedTheme);
-        Debug.Log("themeDropdown is null: " + (themeDropdown == null));
 
-        ConfigScreen = GameObject.FindGameObjectWithTag("ThemeCanvas");
-        GameScreen = GameObject.FindGameObjectWithTag("MainGame");
-        MainMenuProperties = GameObject.FindGameObjectWithTag("MMProps");
+        configScreen = GameObject.FindGameObjectWithTag("ThemeCanvas");
+        gameScreen = GameObject.FindGameObjectWithTag("MainGame");
+        mainMenuProperties = GameObject.FindGameObjectWithTag("MMProps");
 
         StartCoroutine(WaitAllowStartInputs(true));
 
-        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -127,55 +117,42 @@ public class GameManager : MonoBehaviour
             isInRunningGame = true;
         }
 
-        SwitchCurrentScreens(); // Call the screen switching logic
+        SwitchCurrentScreens();
     }
-
 
     #region ScreenLogic
 
-    public void SwitchCurrentScreens()
+    private void SwitchCurrentScreens()
     {
-        if (isInConfig)
-        {
-            ConfigScreen.SetActive(true);
-            GameScreen.SetActive(false);
-            MainMenuProperties.SetActive(false);
-        }
-        else if (isInRunningGame)
-        {
-            ConfigScreen.SetActive(false);
-            GameScreen.SetActive(true);
-            MainMenuProperties.SetActive(false);
-        }
-        else if (isInMainMenu)
-        {
-            ConfigScreen.SetActive(false);
-            GameScreen.SetActive(false);
-            MainMenuProperties.SetActive(true);
-        }
+        configScreen.SetActive(isInConfig);
+        gameScreen.SetActive(isInRunningGame);
+        mainMenuProperties.SetActive(isInMainMenu);
     }
 
     #endregion
 
     #region ThemeSelection
+
     public static void PopulateDropDownWithEnum(TMP_Dropdown dropdown, DictTheme targetTheme)
     {
-        Type DictTheme = targetTheme.GetType();
+        Type dictThemeType = targetTheme.GetType();
         List<TMP_Dropdown.OptionData> newOptions = new List<TMP_Dropdown.OptionData>();
 
-        for (int i = 0; i < Enum.GetNames(DictTheme).Length; i++)
+        foreach (string themeName in Enum.GetNames(dictThemeType))
         {
-            newOptions.Add(new TMP_Dropdown.OptionData(Enum.GetName(DictTheme, i)));
+            newOptions.Add(new TMP_Dropdown.OptionData(themeName));
         }
 
         dropdown.ClearOptions();
         dropdown.AddOptions(newOptions);
     }
+
     public void SetSelectedTheme(DictTheme theme)
     {
         selectedTheme = theme;
         isThemeChosen = true;
     }
+
     public void SetSelectedThemeFromDropDown(TMP_Dropdown selected)
     {
         string selectedOption = selected.options[selected.value].text;
@@ -195,6 +172,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("Menu");
     }
+
     public void PressAnything()
     {
         isInMainMenu = true;
@@ -203,6 +181,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("Menu");
     }
+
     public void ConfigButton()
     {
         isInMainMenu = false;
@@ -211,6 +190,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("Config");
     }
+
     public void StartSession()
     {
         isInMainMenu = false;
@@ -221,6 +201,7 @@ public class GameManager : MonoBehaviour
         hangmanCore.runningSession = true;
         hangmanCore.GetNewWord();
     }
+
     public void ReturnToMenu()
     {
         SceneManager.LoadScene("Menu");
@@ -250,6 +231,7 @@ public class GameManager : MonoBehaviour
         binaryDictionary.currentBinaryInput = "";
         _displayManager.UpdateGuessesDisplay(hangmanCore.allowedGuesses);
     }
+
     public void ClearInput()
     {
         if (isUsingInput)
@@ -265,6 +247,7 @@ public class GameManager : MonoBehaviour
             binaryDictionary.currentBinaryInput = "";
         }
     }
+
     public void SubmitInput()
     {
         if (isUsingInput)
@@ -299,8 +282,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region InputsDomain
-    private bool newScene;
+
     public bool canUpdate = false;
+
     private IEnumerator WaitAllowStartInputs(bool isInNewScene)
     {
         yield return new WaitForSeconds(5);
@@ -308,5 +292,4 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
-
 }
