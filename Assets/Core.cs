@@ -183,7 +183,7 @@ public class Core : MonoBehaviour
                 allowedGuesses--;
                 _displayManager.UpdateGuessesDisplay(allowedGuesses);
 
-                if (allowedGuesses == 0)
+                if (allowedGuesses <= 0) // Change the condition to <= 0
                 {
                     currentSessionLives--;
                     if (gameManager.isIronmanMode)
@@ -196,7 +196,7 @@ public class Core : MonoBehaviour
                         }
                     }
 
-                    if (currentSessionLives < gameManager.minSessionLives)
+                    if (currentSessionLives <= gameManager.minSessionLives) // Change the condition to <=
                     {
                         EndSession(false);
                     }
@@ -206,6 +206,7 @@ public class Core : MonoBehaviour
                     }
                 }
             }
+
             UpdateGuessString(guess);
         }
         else
@@ -304,25 +305,23 @@ public class Core : MonoBehaviour
             _displayManager.DisplayDefeat();
         }
 
-        //currentWord = "";
-        //solvedWords.Clear();
-        //usedWords.Clear();
-        //numberOfWordsSolved = 0;
-        //allowedGuesses = 6;
-        //currentSessionLives = maxSessionLives;
-        //maxSessionLives = 3;
+        _displayManager.EndStateScreen.SetActive(true); // Set EndStateScreen active
     }
     private IEnumerator CountdownTimerCoroutine()
     {
-        while (remainingTimeToSolve > 0f)
+        while (remainingTimeToSolve > 0f && !wordCompleted) // Add condition for word completion
         {
             remainingTimeToSolve -= Time.deltaTime;
 
             yield return null;
         }
 
-        EndSession(false);
+        if (!wordCompleted) // Add check to end session only if word is not completed
+        {
+            EndSession(false);
+        }
     }
+
     private IEnumerator UpdateDisplayCoroutine()
     {
         while (remainingTimeToSolve > 0)
