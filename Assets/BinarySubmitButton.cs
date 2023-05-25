@@ -15,7 +15,7 @@ public class BinarySubmitButton : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(Submit);
     }
 
-    private void Submit()
+    public void Submit()
     {
         string guess = binaryDictionary.currentBinaryInput;
         hangmanCore.ProcessGuess(guess);
