@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 [System.Serializable]
 public enum SessionDifficulty { Easy, Normal, Hard }
@@ -75,6 +76,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _displayManager.EndStateScreen.SetActive(false);
+    }
+
+    private void Update()
+    {
+        _displayManager.theme.text = $"Theme: " + GetComponent<GameManager>().selectedTheme;
     }
 
     private void OnEnable()

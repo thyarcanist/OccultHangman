@@ -123,8 +123,6 @@ public class DisplayManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Main")
             return;
 
-        chosenTheme = gameManager.GetComponent<GameManager>().selectedTheme.ToString();
-        theme.text = $"Theme: " + chosenTheme;
         currentSession = gameManager.GetComponent<GameManager>().sessionDifficulty;
         getWinStreak = gameManager.GetComponent<GameManager>().winStreak;
         isIronOn = DetermineIronMode(gameManager.GetComponent<GameManager>().isIronmanMode);
