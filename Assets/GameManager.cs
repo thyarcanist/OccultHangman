@@ -172,6 +172,9 @@ public class GameManager : MonoBehaviour
 
     public void ToMainMenu()
     {
+        _displayManager.WinScreen.SetActive(false);
+        _displayManager.EndStateScreen.SetActive(false);
+
         isInMainMenu = true;
         isInConfig = false;
         isInRunningGame = false;

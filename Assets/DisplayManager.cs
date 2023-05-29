@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +30,9 @@ public class DisplayManager : MonoBehaviour
     public GameObject GameButtons;
 
     private bool _isEndStateDisplayed = false;
+    private bool isWordCompleted = false;
+    private bool isCoreRunning = false;
+
     public GameObject EndStateScreen;
     public GameObject WinScreen;
     public GameObject LoseScreen;
@@ -46,6 +50,15 @@ public class DisplayManager : MonoBehaviour
     {
         // Set the Dictionary reference first
         Dictionary = FindObjectOfType<HangmanDictionary>();
+        if (Dictionary == null)
+        {
+            Debug.LogError("HangmanDictionary component not found!");
+        }
+        else
+        {
+            Debug.Log("HangmanDictionary component found!");
+        }
+
 
         // Find the other game objects in the scene
         gameManager = GameObject.FindWithTag("GameManager");
@@ -62,10 +75,15 @@ public class DisplayManager : MonoBehaviour
         }
 
         hangmanCore = GameObject.FindObjectOfType<Core>().GetComponent<Core>();
-        gameManager = GameObject.FindWithTag("GameManager");
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
         if (gameManager != null)
         {
             gameManager.GetComponent<GameManager>().enabled = false;
+        }
+        else if (gameManager == null)
+        {
+            Debug.LogError("GameManager object not found!");
+            gameManager = GameObject.FindGameObjectWithTag("GameManager");
         }
 
         // Find the three game objects in the scene
@@ -120,32 +138,35 @@ public class DisplayManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "Main")
-            return;
-
-        currentSession = gameManager.GetComponent<GameManager>().sessionDifficulty;
-        getWinStreak = gameManager.GetComponent<GameManager>().winStreak;
-        isIronOn = DetermineIronMode(gameManager.GetComponent<GameManager>().isIronmanMode);
-
-        // Update the word list for the chosen theme
-        string[] words;
-        if (chosenTheme == "All")
+        if (gameManager.GetComponent<GameManager>().isInRunningGame == true)
         {
-            words = Dictionary.GetAllWords();
-        }
-        else
-        {
-            words = Dictionary.GetWordsByTheme(chosenTheme);
-        }
+            if (SceneManager.GetActiveScene().name != "Main")
+                return;
 
-        if (_currentWord != hangmanCore.currentWord)
-        {
-            _currentWord = hangmanCore.currentWord;
-            UpdateWordDisplay(_currentWord, isIronOn, currentSession);
-        }
+            currentSession = gameManager.GetComponent<GameManager>().sessionDifficulty;
+            getWinStreak = gameManager.GetComponent<GameManager>().winStreak;
+            isIronOn = DetermineIronMode(gameManager.GetComponent<GameManager>().isIronmanMode);
 
-        string _updated = Mathf.RoundToInt(Mathf.Abs(hangmanCore.remainingTimeToSolve)).ToString();
-        timeRemainingDisplay.text = _updated;
+            // Update the word list for the chosen theme
+            string[] words;
+            if (chosenTheme == "All")
+            {
+                words = Dictionary.GetAllWords();
+            }
+            else
+            {
+                words = Dictionary.GetWordsByTheme(chosenTheme);
+            }
+
+            if (_currentWord != hangmanCore.currentWord)
+            {
+                _currentWord = hangmanCore.currentWord;
+                UpdateWordDisplay(_currentWord, isIronOn, currentSession);
+            }
+
+            string _updated = Mathf.RoundToInt(Mathf.Abs(hangmanCore.remainingTimeToSolve)).ToString();
+            timeRemainingDisplay.text = _updated;
+        }
     }
 
     internal void UpdateWordDisplay(string currentWord, bool isIronOn, SessionDifficulty sessionDifficulty)
@@ -214,58 +235,61 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
- internal void UpdateLetterDisplay(int i, string guess)
-{
-    // Convert the guessed letter to lowercase for case-insensitive comparison
-    string lowerCaseGuess = guess.ToLower();
-
-    // Check if the letter has already been guessed
-    if (guessedLetters.Contains(lowerCaseGuess))
+    internal void UpdateLetterDisplay(int i, string guess)
     {
-        Debug.Log($"Letter {lowerCaseGuess} has already been guessed");
-        return;
-    }
+        // Convert the guessed letter to lowercase for case-insensitive comparison
+        string lowerCaseGuess = guess.ToLower();
 
-    // Update the display with the guessed letter at position i
-    guessedLetters.Add(lowerCaseGuess);
-    Debug.Log($"Updated guessed letters: {string.Join(", ", guessedLetters)}");
-    UpdateLetterBankDisplay();
-
-    if (_currentWord.ToLower().Contains(lowerCaseGuess))
-    {
-        _matchIndices.Clear();
-        for (int j = 0; j < _currentWord.Length; j++)
+        // Check if the letter has already been guessed
+        if (guessedLetters.Contains(lowerCaseGuess))
         {
-            if (_currentWord[j].ToString().ToLower().Equals(lowerCaseGuess))
+            Debug.Log($"Letter {lowerCaseGuess} has already been guessed");
+            return;
+        }
+
+        // Update the display with the guessed letter at position i
+        guessedLetters.Add(lowerCaseGuess);
+        Debug.Log($"Updated guessed letters: {string.Join(", ", guessedLetters)}");
+        UpdateLetterBankDisplay();
+
+        if (_currentWord.ToLower().Contains(lowerCaseGuess))
+        {
+            _matchIndices.Clear();
+            for (int j = 0; j < _currentWord.Length; j++)
             {
-                _matchIndices.Add(j);
+                if (_currentWord[j].ToString().ToLower().Equals(lowerCaseGuess))
+                {
+                    _matchIndices.Add(j);
+                }
             }
+
+            hangmanCore.MatchIndices = _matchIndices;
+            Debug.Log($"Match found: {lowerCaseGuess} at indices {string.Join(", ", _matchIndices)}");
+
+            foreach (int index in _matchIndices)
+            {
+                _currentWord = _currentWord.Substring(0, index) + _currentWord[index].ToString().ToLower() + _currentWord.Substring(index + 1);
+                Debug.Log($"Updated current word: {_currentWord}");
+            }
+
+            UpdateWordDisplay(_currentWord, isIronOn, currentSession);
         }
-
-        hangmanCore.MatchIndices = _matchIndices;
-        Debug.Log($"Match found: {lowerCaseGuess} at indices {string.Join(", ", _matchIndices)}");
-
-        foreach (int index in _matchIndices)
-        {
-            _currentWord = _currentWord.Substring(0, index) + _currentWord[index].ToString().ToLower() + _currentWord.Substring(index + 1);
-            Debug.Log($"Updated current word: {_currentWord}");
-        }
-
-        UpdateWordDisplay(_currentWord, isIronOn, currentSession);
     }
-}
 
 
 
     internal bool WordIsComplete()
     {
         bool isComplete = guessedLetters.Count == _currentWord.Replace(" ", "").Length;
-        if (isComplete && hangmanCore.runningSession)
+        if (isComplete && hangmanCore.runningSession && !isWordCompleted)
         {
             hangmanCore.wordCompleted = true;
             DisplaySuccessWord();
             EndStateScreen.SetActive(true);
+            isWordCompleted = true;
         }
+
+        Debug.Log("Word is completed");
         return isComplete;
     }
 
