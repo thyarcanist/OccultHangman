@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 220544910661889325}
   - component: {fileID: 220544910661889327}
   - component: {fileID: 8174191145417825371}
+  - component: {fileID: 5557475807180924012}
+  - component: {fileID: 99830295593509119}
+  - component: {fileID: 5653028570834061135}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -46,41 +49,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dictionary: {fileID: 0}
-  selectedTheme: 0
+  hangmanCore: {fileID: 0}
+  selectedTheme: 1
   themeDropdown: {fileID: 0}
-  isThemeChosen: 0
+  isThemeChosen: 1
   binaryDictionary: {fileID: 0}
   numpadController: {fileID: 0}
   inputManager: {fileID: 0}
+  _displayManager: {fileID: 0}
   userInput: {fileID: 0}
   isUsingInput: 0
   isUsingNumpad: 0
   isUsingBinary: 0
-  currentString: 
-  getScene: 
-  _currentWord: 
-  currentGuess: 
-  difficulty: 1
-  maxSessionLives: 3
-  minSessionLives: 0
-  currentSessionLives: 0
-  runningSession: 0
-  isIronmanMode: 0
-  wordsPerExtraLife: 3
-  allowedGuesses: 6
-  initialGuessAmount: 0
-  maxSolveTime: 3
-  remainingTimeToSolve: 0
-  numberOfWordsSolved: 0
-  solvedWords: []
-  usedWords: []
-  isTimeRemainingCodeRunning: 0
-  ConfigScreen: {fileID: 0}
-  GameScreen: {fileID: 0}
-  MainMenuProperties: {fileID: 0}
+  configScreen: {fileID: 0}
+  gameScreen: {fileID: 0}
+  mainMenuProperties: {fileID: 0}
   isInConfig: 1
   isInRunningGame: 0
   isInMainMenu: 0
+  isIronmanMode: 0
+  difficulty: 1
+  sessionDifficulty: 0
+  maxSessionLives: 3
+  minSessionLives: 0
+  winStreak: 0
+  canUpdate: 0
 --- !u!114 &8174191145417825371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,3 +90,149 @@ MonoBehaviour:
   ImageA: {fileID: 0}
   ImageB: {fileID: 0}
   timer: 0
+--- !u!114 &5557475807180924012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220544910661889322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e5ba0c507694943a338eb848de81b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentString: 
+  currentWord: 
+  currentGuess: 
+  currentSessionLives: 0
+  solvedWords: []
+  usedWords: []
+  isTimeRemainingCodeRunning: 0
+  runningSession: 0
+  wordsPerExtraLife: 3
+  isProcessingGuess: 0
+  failWordCompletion: 0
+  allowedGuesses: 6
+  initialGuessAmount: 0
+  wordCompleted: 0
+  maxSolveTime: 3
+  remainingTimeToSolve: 0
+  numberOfWordsSolved: 0
+  _displayManager: {fileID: 0}
+  gameManager: {fileID: 220544910661889327}
+--- !u!82 &99830295593509119
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220544910661889322}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &5653028570834061135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220544910661889322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c60e9a8cf5d7254388ac688518ae52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  isPlayOnStart: 1
+  isShuffleOnStart: 1
+  isRepeatPlaylist: 1
+  playlist:
+  - {fileID: 8300000, guid: 9903b0c5b985c9b498050a5c563db527, type: 3}
+  - {fileID: 8300000, guid: f42d99eee72683b40b5017fb12b002cb, type: 3}

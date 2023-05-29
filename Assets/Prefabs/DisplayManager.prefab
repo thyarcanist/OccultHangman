@@ -7859,6 +7859,8 @@ GameObject:
   - component: {fileID: 7378652634949816592}
   - component: {fileID: 7378652634949816593}
   - component: {fileID: 7378652634949816594}
+  - component: {fileID: 6021118607795083256}
+  - component: {fileID: 4537691708264621551}
   m_Layer: 0
   m_Name: DisplayManager
   m_TagString: DisplayManager
@@ -7943,6 +7945,41 @@ MonoBehaviour:
   binary: {fileID: 2439881624456461079}
   digits: {fileID: 2439881625030036659}
   input: {fileID: 2439881625999504557}
+--- !u!114 &6021118607795083256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378652634949816620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9f37843c97cb04a9239d79076443cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentInput: 
+  gameManager: {fileID: 0}
+  numberBlocks:
+  - {fileID: 2439881626167794890}
+  - {fileID: 2439881624362315800}
+  - {fileID: 2439881626077904552}
+  - {fileID: 2439881624901284477}
+  - {fileID: 2439881625209392911}
+  - {fileID: 2439881624391621633}
+  - {fileID: 2439881625917734198}
+  - {fileID: 2439881624612131089}
+  - {fileID: 2439881624772479791}
+  - {fileID: 2439881625456570717}
+  - {fileID: 2439881625947948584}
+  - {fileID: 2439881624585121523}
+--- !u!81 &4537691708264621551
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378652634949816620}
+  m_Enabled: 1
 --- !u!1 &7392262603412054112
 GameObject:
   m_ObjectHideFlags: 0
