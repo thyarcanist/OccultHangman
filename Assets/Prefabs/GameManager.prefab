@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 220544910661889325}
   - component: {fileID: 220544910661889327}
   - component: {fileID: 8174191145417825371}
-  - component: {fileID: 7362430943442399927}
   - component: {fileID: 5557475807180924012}
   - component: {fileID: 5653028570834061135}
   - component: {fileID: 3553207870411817023}
@@ -92,37 +91,6 @@ MonoBehaviour:
   ImageA: {fileID: 0}
   ImageB: {fileID: 0}
   timer: 0
---- !u!114 &7362430943442399927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220544910661889322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83e5ba0c507694943a338eb848de81b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentString: 
-  currentWord: 
-  currentGuess: 
-  currentSessionLives: 0
-  solvedWords: []
-  usedWords: []
-  isTimeRemainingCodeRunning: 0
-  runningSession: 0
-  wordsPerExtraLife: 3
-  isProcessingGuess: 0
-  failWordCompletion: 0
-  allowedGuesses: 6
-  initialGuessAmount: 0
-  wordCompleted: 0
-  maxSolveTime: 3
-  remainingTimeToSolve: 0
-  numberOfWordsSolved: 0
-  _displayManager: {fileID: 0}
-  gameManager: {fileID: 220544910661889327}
 --- !u!114 &5557475807180924012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,5 +250,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentInput: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 220544910661889327}
   numberBlocks: []
