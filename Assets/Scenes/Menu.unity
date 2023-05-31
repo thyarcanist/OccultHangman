@@ -903,6 +903,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 90478041717404691, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 638154026359865238, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2183,6 +2187,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 3657569514268497515, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3702853384305687567, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2367,6 +2375,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5918202681912942013, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6021118607795083256, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: gameManager
       value: 
@@ -2445,7 +2457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6820031494145492515, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_text
-      value: VOID.OS | 0.0.2
+      value: VOID.OS | 0.3.2
       objectReference: {fileID: 0}
     - target: {fileID: 6820031494145492515, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_fontSize

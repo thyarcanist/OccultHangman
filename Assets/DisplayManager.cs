@@ -95,6 +95,10 @@ public class DisplayManager : MonoBehaviour
         wordDisplay = GameObject.FindGameObjectWithTag("wordDisplay").GetComponent<TMP_Text>();
         letterBank = GameObject.FindGameObjectWithTag("LetterBank");
         EndStateScreen = GameObject.FindGameObjectWithTag("EndState");
+        OutOfScene = GameObject.FindGameObjectWithTag("themeHidden").transform;
+        InsideOfScene = GameObject.FindGameObjectWithTag("themeVisible").transform;
+
+
     }
 
     private void OnEnable()
@@ -136,8 +140,16 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
+    private Transform OutOfScene;
+    private Transform InsideOfScene;
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name == "Menu" ) 
+        { 
+            theme.transform.position = OutOfScene.transform.position;
+        }
+        else { theme.transform.position = InsideOfScene.transform.position; }
+
         if (gameManager.GetComponent<GameManager>().isInRunningGame == true)
         {
             if (SceneManager.GetActiveScene().name != "Main")

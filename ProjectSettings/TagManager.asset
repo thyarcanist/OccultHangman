@@ -26,6 +26,8 @@ TagManager:
   - EndState
   - BootSequence
   - AfterBSQ
+  - themeVisible
+  - themeHidden
   layers:
   - Default
   - TransparentFX
