@@ -49,15 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631b4a5f154baef45907eab4d99250cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dictionary: {fileID: 0}
+  _dictionary: {fileID: 11400000, guid: 4d82c2dadb3ad524f87e7e35b14f4ac8, type: 2}
   hangmanCore: {fileID: 0}
-  selectedTheme: 3
+  selectedTheme: 0
   themeDropdown: {fileID: 0}
-  isThemeChosen: 1
-  binaryDictionary: {fileID: 0}
+  isThemeChosen: 0
+  binaryDictionary: {fileID: 8174191145417825371}
   numpadController: {fileID: 0}
   inputManager: {fileID: 0}
   _displayManager: {fileID: 0}
+  BootSequence: {fileID: 0}
   userInput: {fileID: 0}
   isUsingInput: 0
   isUsingNumpad: 0
@@ -65,9 +66,9 @@ MonoBehaviour:
   configScreen: {fileID: 0}
   gameScreen: {fileID: 0}
   mainMenuProperties: {fileID: 0}
-  isInConfig: 1
+  isInConfig: 0
   isInRunningGame: 0
-  isInMainMenu: 0
+  isInMainMenu: 1
   isIronmanMode: 0
   difficulty: 1
   sessionDifficulty: 0
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c60e9a8cf5d7254388ac688518ae52f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixer: {fileID: 0}
+  mixer: {fileID: 24100000, guid: 77e77c2cfda4c8f41adb72fc8c05d361, type: 2}
   isPlayOnStart: 1
   isShuffleOnStart: 1
   isRepeatPlaylist: 1

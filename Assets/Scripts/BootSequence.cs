@@ -21,6 +21,11 @@ public class BootSequence : MonoBehaviour
     public string line7 = "Running protocol: Unknown entity detection...";
     public string line8 = "T.O.B.I alert status: INACTIVE";
 
+    public GameObject MainMenuScreen;
+    public GameObject MainGameScreen; 
+    public GameObject ConfigMenuScreen;
+    public GameObject EndStateScreen;
+
     [SerializeField]
     private string[] bootLines;
     [SerializeField]
@@ -30,6 +35,11 @@ public class BootSequence : MonoBehaviour
 
     private void Awake()
     {
+        MainMenuScreen = GameObject.FindGameObjectWithTag("MMProps");
+        MainGameScreen = GameObject.FindGameObjectWithTag("MainGame");
+        ConfigMenuScreen = GameObject.FindGameObjectWithTag("ThemeCanvas");
+        EndStateScreen = GameObject.FindGameObjectWithTag("EndState");
+
         bootLines = new string[8];
         bootUpText = gameObject.GetComponentInChildren<TMP_Text>();
         if (bootUpText != null)
@@ -38,7 +48,7 @@ public class BootSequence : MonoBehaviour
         }
         afterBootSequence = GameObject.FindGameObjectWithTag("AfterBSQ");
         afterBootSequence.SetActive(false);
-    }
+}
 
     private void OnEnable()
     {
@@ -61,6 +71,15 @@ public class BootSequence : MonoBehaviour
         bootLines[5] = line6;
         bootLines[6] = line7;
         bootLines[7] = line8;
+    }
+
+    private void Start()
+    {
+
+        MainMenuScreen.SetActive(false);
+        MainGameScreen.SetActive(false);
+        ConfigMenuScreen.SetActive(false);
+        EndStateScreen.SetActive(false);
     }
 
     private void Update()
