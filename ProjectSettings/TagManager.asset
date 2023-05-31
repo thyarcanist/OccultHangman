@@ -24,6 +24,8 @@ TagManager:
   - WinPanel
   - LosePanel
   - EndState
+  - BootSequence
+  - AfterBSQ
   layers:
   - Default
   - TransparentFX

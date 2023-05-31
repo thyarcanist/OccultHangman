@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private DisplayManager _displayManager;
     public DisplayManager DisplayManager => _displayManager;
+    public GameObject BootSequence;
 
     [Header("Input Methods")]
     // Input Methods
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         hangmanCore = FindObjectOfType<Core>();
         _displayManager = FindObjectOfType<DisplayManager>();
         _displayManager.Dictionary = _dictionary;
+        BootSequence = GameObject.FindGameObjectWithTag("BootSequence");
     }
 
     private void Start()
@@ -169,6 +171,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Buttons
+
+    public void BootToMenu()
+    {
+        isInMainMenu = true;
+        isInConfig = false;
+        isInRunningGame = false;
+        BootSequence.SetActive(false);
+        BootSequence.GetComponent<BootSequence>().MainMenuScreen.SetActive(true);
+    }
 
     public void ToMainMenu()
     {
