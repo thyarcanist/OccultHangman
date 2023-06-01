@@ -2207,6 +2207,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3762922763781907241, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3798765176986540697, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_Name
       value: LetterBank
@@ -2975,6 +2979,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 220544912433311579}
+    - target: {fileID: 7459319903820714339, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7658316608408234236, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_Name
       value: ArcadeButton
@@ -3070,6 +3078,10 @@ PrefabInstance:
     - target: {fileID: 8915975697511175363, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088439425650093843, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 314
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6820031495326498903, guid: 1e8bf0b4e4a968c498c673c90348175d, type: 3}
