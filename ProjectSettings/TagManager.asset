@@ -28,6 +28,13 @@ TagManager:
   - AfterBSQ
   - themeVisible
   - themeHidden
+  - SNET
+  - APS
+  - TMNM
+  - SRQ
+  - CDIFMA
+  - HELBATCH
+  - connectButton
   layers:
   - Default
   - TransparentFX

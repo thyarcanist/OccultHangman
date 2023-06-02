@@ -15,6 +15,15 @@ public enum DictTheme { All, Demons, Gnosticism, Fiction, Angels, Cosmic, Matter
 
 public class GameManager : MonoBehaviour
 {
+    [Header("PlayerData")]
+    public bool createdUser;
+    [SerializeField] public string agentProxyID;
+    [SerializeField] private bool finishedTutorial;
+    [SerializeField] private bool unlockedBinary;
+    [SerializeField] private bool unlockedStory;
+
+
+    [Header("Gameplay")]
     [SerializeField] public HangmanDictionary _dictionary;
     [SerializeField] private Core hangmanCore;
 

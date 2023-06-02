@@ -9,15 +9,20 @@ public class BootSequence : MonoBehaviour
     public string operatingSystemName;
     public string lastBootTime;
     public bool isProfileFound;
+    public string userStatus;
+    public string userName;
+
+    public TMP_Text connectText;
+
     public bool connectionIsAuthorized = false;
     public bool isSequenceFinished = false;
 
     public string line1 = "> Alerting Processes...";
     public string line2 = $"> Booting: VXXX.SO";
     public string line3 = "ALERT! CORRUPTION FOUND";
-    public string line4 = "Updating... \n Update Complete: VoidOS";
+    public string line4 = "Updating... \nUpdate Complete: VoidOS";
     public string line5 = "Initiating sub-routine: Transdimensional Signal...";
-    public string line6 = "User profile status: UNKNOWN";
+    public string line6;
     public string line7 = "Running protocol: Unknown entity detection...";
     public string line8 = "T.O.B.I alert status: INACTIVE";
 
@@ -35,10 +40,21 @@ public class BootSequence : MonoBehaviour
 
     private void Awake()
     {
+        connectText = GameObject.FindGameObjectWithTag("connectButton").GetComponent<TMP_Text>();
         MainMenuScreen = GameObject.FindGameObjectWithTag("MMProps");
         MainGameScreen = GameObject.FindGameObjectWithTag("MainGame");
         ConfigMenuScreen = GameObject.FindGameObjectWithTag("ThemeCanvas");
         EndStateScreen = GameObject.FindGameObjectWithTag("EndState");
+
+        userName = GameObject.FindObjectOfType<GameManager>().agentProxyID.ToString();
+        if (!isProfileFound)
+        {
+            userStatus = "UNKNOWN";
+            connectText.text = "AUTHENTICATE USER";
+        }
+        else { userStatus = "FOUND"; connectText.text = "CONNECT"; }
+
+        line6 = $"User profile status: {userStatus}";
 
         bootLines = new string[8];
         bootUpText = gameObject.GetComponentInChildren<TMP_Text>();
