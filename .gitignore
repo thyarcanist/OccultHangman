@@ -70,3 +70,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/prompt.txt
+Assets/prompt.txt.meta
+Assets/Scripts/VOS.meta
+Assets/Scripts/VOS/Respond.cs
+Assets/Scripts/VOS/Respond.cs.meta
