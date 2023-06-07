@@ -17,8 +17,18 @@ public class BinarySubmitButton : MonoBehaviour
 
     public void Submit()
     {
+        Debug.Log("Pressed Submit");
+        binaryDictionary.didSubmit = true;
         string guess = binaryDictionary.currentBinaryInput;
-        hangmanCore.ProcessGuess(guess);
+        char? matchedKey = binaryDictionary.GetMatchedKey(guess);
+
+        if (matchedKey.HasValue)
+        {
+            Debug.Log("Found value: " + matchedKey.Value);
+            hangmanCore.ProcessGuess(matchedKey.ToString());
+        }
+
         binaryDictionary.currentBinaryInput = "";
     }
+
 }

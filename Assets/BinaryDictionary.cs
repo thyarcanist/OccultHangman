@@ -68,6 +68,7 @@ public class BinaryDictionary : MonoBehaviour
     public GameObject ImageA; // 0
     public GameObject ImageB; // 1
 
+    public bool didSubmit = false;
     public static int maxBinaryDigitCount = 8;
 
     public void AddBinaryDigit(int binaryDigit)
@@ -100,7 +101,7 @@ public class BinaryDictionary : MonoBehaviour
     private void Update()
     {
 
-        if (currentBinaryInput.Length == maxBinaryDigitCount)
+        if (currentBinaryInput.Length == maxBinaryDigitCount && didSubmit == true)
         {
             // Check for a match in lowercase and uppercase dictionaries
             foreach (KeyValuePair<char, string> kvp in lowercaseBinaryDict)
@@ -109,6 +110,7 @@ public class BinaryDictionary : MonoBehaviour
                 {
                     Debug.Log("Match found: " + kvp.Key);
                     currentBinaryInput = "";
+                    didSubmit = false;
                     return;
                 }
             }
@@ -118,6 +120,7 @@ public class BinaryDictionary : MonoBehaviour
                 {
                     Debug.Log("Match found: " + kvp.Key);
                     currentBinaryInput = "";
+                    didSubmit = false;
                     return;
                 }
             }

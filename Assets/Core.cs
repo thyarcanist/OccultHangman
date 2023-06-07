@@ -128,13 +128,13 @@ public class Core : MonoBehaviour
     public void ProcessGuess(string guess)
     {
         guess = guess.ToLower();
-        currentGuess = "";
+        currentString = "";
         if (Regex.IsMatch(guess, "^[a-zA-Z]$"))
         {
             bool foundMatch = false;
             for (int i = 0; i < currentWord.Length; i++)
             {
-                if (currentWord[i].ToString().ToLower() == guess)
+                if (currentWord[i].ToString().ToLower() == guess.ToLower())
                 {
                     _displayManager.UpdateLetterDisplay(i, guess);
                     foundMatch = true;
@@ -229,7 +229,7 @@ public class Core : MonoBehaviour
         }
         else
         {
-            string guessString = guess.ToLower();
+            string guessString = string.IsNullOrEmpty(guess) ? "" : guess.ToLower();
             string currentWordUpper = currentWord.ToLower();
 
             for (int i = 0; i < currentWordUpper.Length; i++)
