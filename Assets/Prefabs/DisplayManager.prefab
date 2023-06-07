@@ -1040,7 +1040,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BinaryDictionary, Assembly-CSharp
-        m_MethodName: BinaryT0
+        m_MethodName: BinaryT1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2704,12 +2704,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 693975114096518904}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2851,12 +2851,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 3963910888083011397}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3038,13 +3038,25 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4747184104991238568}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: HandleSubmitButtonClick
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: -2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3185,12 +3197,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 3569065968390406268}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3332,12 +3344,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 6999443598292730721}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3625,12 +3637,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 8257797643317995385}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3980,12 +3992,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 18377252540294595}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4127,13 +4139,25 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4243191475301803114}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: HandleSubmitButtonClick
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: -1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4350,12 +4374,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 9180300571838052905}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4497,12 +4521,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 3362112676169696469}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4818,12 +4842,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Continue
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 3708935621131051891}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4965,12 +4989,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: NumberPadManager, Assembly-CSharp
+        m_MethodName: OnNumberBlockPressed
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 4453526342338769119}
+          m_ObjectArgumentAssemblyTypeName: NumberBlockController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12628,7 +12652,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6820031496112073716}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6820031496112073719}
+        m_TargetAssemblyTypeName: BinarySubmitButton, Assembly-CSharp
+        m_MethodName: Submit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6820031496112073716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13213,7 +13249,7 @@ MonoBehaviour:
   guessedLetters: []
   letterBank: {fileID: 3798765176986540697}
   wordDisplay: {fileID: 6820031495606784968}
-  timeRemainingDisplay: {fileID: 0}
+  timeRemainingDisplay: {fileID: 6790701345983277651}
 --- !u!114 &7378652634949816594
 MonoBehaviour:
   m_ObjectHideFlags: 0

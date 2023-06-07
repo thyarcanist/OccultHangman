@@ -49,13 +49,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631b4a5f154baef45907eab4d99250cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createdUser: 0
+  agentProxyID: 
+  finishedTutorial: 0
+  unlockedBinary: 0
+  unlockedStory: 0
   _dictionary: {fileID: 11400000, guid: 4d82c2dadb3ad524f87e7e35b14f4ac8, type: 2}
-  hangmanCore: {fileID: 0}
+  hangmanCore: {fileID: 5557475807180924012}
   selectedTheme: 0
   themeDropdown: {fileID: 0}
-  isThemeChosen: 0
+  isThemeChosen: 1
   binaryDictionary: {fileID: 8174191145417825371}
-  numpadController: {fileID: 0}
+  numpadController: {fileID: 7517363329146085928}
   inputManager: {fileID: 0}
   _displayManager: {fileID: 0}
   BootSequence: {fileID: 0}
@@ -91,6 +96,7 @@ MonoBehaviour:
   currentBinaryInput: 
   ImageA: {fileID: 0}
   ImageB: {fileID: 0}
+  didSubmit: 0
   timer: 0
 --- !u!114 &5557475807180924012
 MonoBehaviour:
@@ -151,10 +157,10 @@ AudioSource:
   m_GameObject: {fileID: 220544910661889322}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 77e77c2cfda4c8f41adb72fc8c05d361, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.114
   m_Pitch: 1
   Loop: 0
   Mute: 0
