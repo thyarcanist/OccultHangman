@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    // Handles how inputs work
+
     public static InputManager Instance { get; private set; }
 
     public GameObject binary;

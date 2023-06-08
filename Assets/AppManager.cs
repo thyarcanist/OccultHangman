@@ -3,6 +3,7 @@ using UnityEngine;
 public class AppManager : MonoBehaviour
 {
     // Base Menu Screen -- Story Mode
+    // This script is not implemented yet
 
     [SerializeField]
     public Apps[] Apps;

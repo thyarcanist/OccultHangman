@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NumberBlockController : MonoBehaviour
 {
+
+    // This is assigned to individual block representation of the numberpad
+
     public NumBlockType numBlockType;
     public enum NumBlockType
     {

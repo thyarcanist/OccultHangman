@@ -5,6 +5,9 @@ using TMPro;
 
 public class BootSequence : MonoBehaviour
 {
+
+    // This script controls what happens upon starting up the game. I'm thinking of saving the profile data locally. Adding a 'input' inside of the HEL.BATCH App to skip the tutorial in case of lost progression.
+
     public TMP_Text bootUpText;
     public string operatingSystemName;
     public string lastBootTime;
@@ -17,6 +20,7 @@ public class BootSequence : MonoBehaviour
     public bool connectionIsAuthorized = false;
     public bool isSequenceFinished = false;
 
+    // Lines that is 'typed out'
     public string line1 = "> Alerting Processes...";
     public string line2 = $"> Booting: VXXX.SO";
     public string line3 = "ALERT! CORRUPTION FOUND";
@@ -66,9 +70,9 @@ public class BootSequence : MonoBehaviour
         afterBootSequence.SetActive(false);
 }
 
-    private void OnEnable()
+    private void OnEnable() // on the script enabling this is what starts the lines sequence
     {
-        if (isProfileFound)
+        if (isProfileFound) // When profile data is added
         {
             lastBootTime = System.DateTime.Now.ToString("yyyy.MM.dd");
             bootLines[1] = "> Booting: VoidOS";
@@ -131,6 +135,8 @@ public class BootSequence : MonoBehaviour
             }
         }
 
+
+        // Needed to help end progression
         isSequenceFinished = true;
         isSequenceRunning = false;
     }

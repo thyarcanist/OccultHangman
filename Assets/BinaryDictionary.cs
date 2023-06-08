@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BinaryDictionary : MonoBehaviour
 {
+    // This both controls and manages how the binary input is parsed
+
     public static readonly Dictionary<char, string> lowercaseBinaryDict = new Dictionary<char, string>()
     {
         { 'a', "01100001" },
@@ -130,7 +132,7 @@ public class BinaryDictionary : MonoBehaviour
             timer = 0.0f;
         }
 
-        // Check if time limit has been reached
+        // Check if time limit has been reached && will likely be removing this for accessibility reasons
         if (currentBinaryInput.Length > 0)
         {
             timer += Time.deltaTime;

@@ -7,6 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HangmanDictionary", menuName = "Hangman/Dictionary")]
 public class HangmanDictionary : ScriptableObject
 {
+    // Contains the theme and words for the hangman system
+    // Wanting to create a better method of storing these.
+
+
     private Dictionary<string, string[]> wordsByTheme { get; set; } = new Dictionary<string, string[]>
     {
         {"Demons", new string[] {"Bael", "Agares", "Vassago", "Samigina", "Marbas", "Valefar", "Aamon", "Barbatos", "Paimon", "Buer",
@@ -43,7 +47,7 @@ public class HangmanDictionary : ScriptableObject
         }
     }
 
-    // When finished, add a alchemy & et cetera dictionary value
+    // When finished, add a alchemy & et cetera dictionary value to wordsByTheme
 
 
 }

@@ -94,6 +94,8 @@ public class GameManager : MonoBehaviour
         _displayManager.theme.text = $"Theme: " + GetComponent<GameManager>().selectedTheme;
     }
 
+    // what allows the theme to be selected inside of config
+    // going to likely edit to to only show specific ones
     private void OnEnable()
     {
         themeDropdown = GameObject.FindGameObjectWithTag("themeDropdown").GetComponent<TMP_Dropdown>();

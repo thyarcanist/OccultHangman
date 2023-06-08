@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NumberPadManager : MonoBehaviour
 {
+
+    // Akin to the binaryDictionary script this controls the numberpad Input and how information is parsed
+
     public Dictionary<string, int> keypadMapping = new Dictionary<string, int>()
     {
         {"1", 0}, {"2", 1}, {"3", 2},

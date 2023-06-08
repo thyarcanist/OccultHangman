@@ -7,7 +7,7 @@ using static UnityEngine.PlayerLoop.PreUpdate;
 
 public class Core : MonoBehaviour
 {
-    // Hangman Logic --> Will be placed here.
+    // CORE HANGMAN LOGIC
 
     [Header("Word")]
     [SerializeField] string currentString;
@@ -23,11 +23,12 @@ public class Core : MonoBehaviour
 
     public int currentSessionLives;
 
-
+    // When ironmode is selected, determines how many guesses are allowed
     public int IRONMAN_MODE_EASY_GUESSES { get; private set; } = 20;
     public int IRONMAN_MODE_MEDIUM_GUESSES { get; private set; } = 16;
     public int IRONMAN_MODE_HARD_GUESSES { get; private set; } = 6;
 
+    // adds solved and used words for a session into a list
     [Header("Logic: Lists")]
     [SerializeField] public List<string> solvedWords = new List<string>();
     [SerializeField] private List<string> usedWords = new List<string>();
@@ -40,6 +41,7 @@ public class Core : MonoBehaviour
     public int wordsPerExtraLife = 3;
     public bool isProcessingGuess = false;
     public bool failWordCompletion = false;
+
 
     public int allowedGuesses = 6;
     public int initialGuessAmount;
@@ -125,6 +127,7 @@ public class Core : MonoBehaviour
         }
     }
 
+    // What happens when a letter is guessed for the number and the binary manager as well as input
     public void ProcessGuess(string guess)
     {
         guess = guess.ToLower();
