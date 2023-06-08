@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TheraBytes.BetterUi;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -97,6 +98,8 @@ public class DisplayManager : MonoBehaviour
         EndStateScreen = GameObject.FindGameObjectWithTag("EndState");
         OutOfScene = GameObject.FindGameObjectWithTag("themeHidden").transform;
         InsideOfScene = GameObject.FindGameObjectWithTag("themeVisible").transform;
+        EndTitle = GameObject.FindGameObjectWithTag("HNG_FC").GetComponent<BetterText>();
+        
 
 
     }
@@ -181,6 +184,10 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
+
+
+
+    #region MAIN_HANGMAN
     internal void UpdateWordDisplay(string currentWord, bool isIronOn, SessionDifficulty sessionDifficulty)
     {
         _currentWord = currentWord;
@@ -288,8 +295,6 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
-
-
     internal bool WordIsComplete()
     {
         bool isComplete = guessedLetters.Count == _currentWord.Replace(" ", "").Length;
@@ -371,4 +376,27 @@ public class DisplayManager : MonoBehaviour
             Debug.Log("timeRemainingDisplay is null");
         }
     }
+
+    #endregion
+
+    [Header("Inbetween Round Information")]
+    private string correctFailed = "";
+    private BetterText EndTitle;
+
+    public void GetEndStateStatus()
+    {
+        if (hangmanCore.wordCompleted == true)
+        {
+            EndTitle.text = "CORRECT";
+        }
+        else if (hangmanCore.failWordCompletion == true)
+        {
+            correctFailed = "FAILED COMPLETION";
+        }
+        else
+        {
+            EndTitle.text = "";
+        }
+
+    } 
 }

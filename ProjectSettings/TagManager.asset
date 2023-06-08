@@ -35,6 +35,7 @@ TagManager:
   - CDIFMA
   - HELBATCH
   - connectButton
+  - HNG_FC
   layers:
   - Default
   - TransparentFX
